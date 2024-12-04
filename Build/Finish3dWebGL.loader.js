@@ -1,7 +1,7 @@
 function createUnityInstance(t, r, d) {
-  function i(e, t) {
-    if (!i.aborted && r.showBanner)
-      return "error" == t && (i.aborted = !0), r.showBanner(e, t);
+  function l(e, t) {
+    if (!l.aborted && r.showBanner)
+      return "error" == t && (l.aborted = !0), r.showBanner(e, t);
     switch (t) {
       case "error":
         console.error(e);
@@ -20,7 +20,7 @@ function createUnityInstance(t, r, d) {
     (r += "\n" + (n = n.startsWith(r) ? n.substring(r.length) : n).trim()) &&
       c.stackTraceRegExp &&
       c.stackTraceRegExp.test(r) &&
-      C(
+      k(
         r,
         e.filename || (t && (t.fileName || t.sourceURL)) || "",
         e.lineno || (t && (t.lineNumber || t.line)) || 0
@@ -67,13 +67,13 @@ function createUnityInstance(t, r, d) {
           "string" == typeof e &&
             -1 != e.indexOf("wasm streaming compile failed") &&
             (-1 != e.toLowerCase().indexOf("mime")
-              ? i(
+              ? l(
                   'HTTP Response Header "Content-Type" configured incorrectly on the server for file ' +
                     c.codeUrl +
                     ' , should be "application/wasm". Startup time performance will suffer.',
                   "warning"
                 )
-              : i(
+              : l(
                   'WebAssembly streaming compilation failed! This can happen for example if "Content-Encoding" HTTP header is incorrectly enabled on the server for file ' +
                     c.codeUrl +
                     ", but the file is not pre-compressed on disk (or vice versa). Check the Network tab in browser Devtools to debug server header configuration.",
@@ -81,7 +81,7 @@ function createUnityInstance(t, r, d) {
                 ));
       },
       locateFile: function (e) {
-        return "build.wasm" == e ? this.codeUrl : e;
+        return e;
       },
       disabledCanvasEvents: ["contextmenu", "dragstart"],
     };
@@ -115,8 +115,8 @@ function createUnityInstance(t, r, d) {
       for (var e = 0; e < c.deinitializers.length; e++) c.deinitializers[e]();
       (c.deinitializers = []), "function" == typeof c.onQuit && c.onQuit();
     });
-  var u,
-    l,
+  var i,
+    u,
     h,
     f,
     p,
@@ -151,7 +151,7 @@ function createUnityInstance(t, r, d) {
           });
         },
       });
-  function C(e, t, r) {
+  function k(e, t, r) {
     -1 == e.indexOf("fullscreen error") &&
       (c.startupErrorHandler
         ? c.startupErrorHandler(e, t, r)
@@ -159,7 +159,7 @@ function createUnityInstance(t, r, d) {
           (console.log("Invoking error handler due to\n" + e),
           "function" == typeof dump &&
             dump("Invoking error handler due to\n" + e),
-          C.didShowErrorMessage ||
+          k.didShowErrorMessage ||
             (-1 !=
             (e =
               "An error occurred running the Unity content on this page. See your browser JavaScript console for more info. The error was:\n" +
@@ -176,9 +176,9 @@ function createUnityInstance(t, r, d) {
                 (e =
                   "The browser could not allocate enough memory for the WebGL content. If you are the developer of this content, try allocating less memory to your WebGL build in the WebGL player settings."),
             alert(e),
-            (C.didShowErrorMessage = !0))));
+            (k.didShowErrorMessage = !0))));
   }
-  function x(e, t) {
+  function C(e, t) {
     if ("symbolsUrl" != e) {
       var r = c.downloadProgress[e],
         n =
@@ -213,7 +213,7 @@ function createUnityInstance(t, r, d) {
       d(0.9 * (a ? (a - i - (o ? (s * (o - n)) / o : 0)) / a : 0));
     }
   }
-  function S() {
+  function x() {
     var o = this;
     o.isConnected = new Promise(function (t, r) {
       try {
@@ -225,13 +225,13 @@ function createUnityInstance(t, r, d) {
           void 0 === o.database &&
             r(new Error("Could not connect to database: Timeout."));
         }, 2e3);
-        var e = f.open(u.name, u.version);
+        var e = f.open(i.name, i.version);
         (e.onupgradeneeded = function (e) {
           var t;
           (e = (e = e).target.result).objectStoreNames.contains(h.name) ||
             e.createObjectStore(h.name),
-            e.objectStoreNames.contains(l.name) ||
-              ((t = e.createObjectStore(l.name, { keyPath: "url" })),
+            e.objectStoreNames.contains(u.name) ||
+              ((t = e.createObjectStore(u.name, { keyPath: "url" })),
               [
                 "version",
                 "company",
@@ -258,17 +258,17 @@ function createUnityInstance(t, r, d) {
       }
     });
   }
-  function T(e) {
+  function S(e) {
     console.log("[UnityCache] " + e);
   }
-  function E(e) {
+  function U(e) {
     return (
-      (E.link = E.link || document.createElement("a")),
-      (E.link.href = e),
-      E.link.href
+      (U.link = U.link || document.createElement("a")),
+      (U.link.href = e),
+      U.link.href
     );
   }
-  function k(t) {
+  function E(t) {
     (t = t || {}),
       (this.headers = new Headers()),
       Object.keys(t.headers).forEach(
@@ -288,7 +288,7 @@ function createUnityInstance(t, r, d) {
         }.bind(this),
       });
   }
-  function P(e, t, r, n, o) {
+  function T(e, t, r, n, o) {
     var a = {
       url: e,
       version: m.version,
@@ -313,244 +313,108 @@ function createUnityInstance(t, r, d) {
       a
     );
   }
-  function U() {
-    new Promise(function (a, e) {
-      var s = document.createElement("script");
-      (s.src = c.frameworkUrl),
-        (s.onload = function () {
-          if ("undefined" == typeof unityFramework || !unityFramework) {
-            var e,
-              t = [
-                ["br", "br"],
-                ["gz", "gzip"],
-              ];
-            for (e in t) {
-              var r,
-                n = t[e];
-              if (c.frameworkUrl.endsWith("." + n[0]))
-                return (
-                  (r = "Unable to parse " + c.frameworkUrl + "!"),
-                  "file:" == location.protocol
-                    ? void i(
-                        r +
-                          " Loading pre-compressed (brotli or gzip) content via a file:// URL without a web server is not supported by this browser. Please use a local development web server to host compressed Unity content, or use the Unity Build and Run option.",
-                        "error"
-                      )
-                    : ((r +=
-                        ' This can happen if build compression was enabled but web server hosting the content was misconfigured to not serve the file with HTTP Response Header "Content-Encoding: ' +
-                        n[1] +
-                        '" present. Check browser Console and Devtools Network tab to debug.'),
-                      "br" == n[0] &&
-                        "http:" == location.protocol &&
-                        ((n =
-                          -1 !=
-                          ["localhost", "127.0.0.1"].indexOf(location.hostname)
-                            ? ""
-                            : "Migrate your server to use HTTPS."),
-                        (r = /Firefox/.test(navigator.userAgent)
-                          ? "Unable to parse " +
-                            c.frameworkUrl +
-                            '!<br>If using custom web server, verify that web server is sending .br files with HTTP Response Header "Content-Encoding: br". Brotli compression may not be supported in Firefox over HTTP connections. ' +
-                            n +
-                            ' See <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1670675">https://bugzilla.mozilla.org/show_bug.cgi?id=1670675</a> for more information.'
-                          : "Unable to parse " +
-                            c.frameworkUrl +
-                            '!<br>If using custom web server, verify that web server is sending .br files with HTTP Response Header "Content-Encoding: br". Brotli compression may not be supported over HTTP connections. Migrate your server to use HTTPS.')),
-                      void i(r, "error"))
-                );
-            }
-            i(
-              "Unable to parse " +
-                c.frameworkUrl +
-                "! The file is corrupt, or compression was misconfigured? (check Content-Encoding HTTP Response Header on web server)",
-              "error"
-            );
-          }
-          var o = unityFramework;
-          (unityFramework = null), (s.onload = null), a(o);
-        }),
-        (s.onerror = function (e) {
-          i(
-            "Unable to load file " +
-              c.frameworkUrl +
-              "! Check that the file exists on the remote server. (also check browser Console and Devtools Network tab to debug)",
-            "error"
-          );
-        }),
-        document.body.appendChild(s),
-        c.deinitializers.push(function () {
-          document.body.removeChild(s);
-        });
-    }).then(function (e) {
-      e(c);
-    });
-    x((r = "dataUrl")),
-      (e = c.cacheControl(c[r])),
-      (t =
-        c.companyName && c.productName ? c.cachedFetch : c.fetchWithProgress),
-      (n = c[r]),
-      (n = /file:\/\//.exec(n) ? "same-origin" : void 0);
-    var r,
-      e,
+  (c.SystemInfo = (function () {
+    var e,
       t,
+      r,
       n,
-      o = t(c[r], {
-        method: "GET",
-        companyName: c.companyName,
-        productName: c.productName,
-        control: e,
-        mode: n,
-        onProgress: function (e) {
-          x(r, e);
-        },
-      })
-        .then(function (e) {
-          return e.parsedBody;
-        })
-        .catch(function (e) {
-          var t = "Failed to download file " + c[r];
-          "file:" == location.protocol
-            ? i(
-                t +
-                  ". Loading web pages via a file:// URL without a web server is not supported by this browser. Please use a local development web server to host Unity content, or use the Unity Build and Run option.",
-                "error"
-              )
-            : console.error(t);
-        });
-    c.preRun.push(function () {
-      c.addRunDependency("dataUrl"),
-        o.then(function (e) {
-          var t = new DataView(e.buffer, e.byteOffset, e.byteLength),
-            r = 0,
-            n = "UnityWebData1.0\0";
-          if (
-            !String.fromCharCode.apply(null, e.subarray(r, r + n.length)) == n
-          )
-            throw "unknown data format";
-          var o = t.getUint32((r += n.length), !0);
-          for (r += 4; r < o; ) {
-            var a = t.getUint32(r, !0),
-              s = ((r += 4), t.getUint32(r, !0)),
-              i = ((r += 4), t.getUint32(r, !0)),
-              d =
-                ((r += 4),
-                String.fromCharCode.apply(null, e.subarray(r, r + i)));
-            r += i;
-            for (
-              var u = 0, l = d.indexOf("/", u) + 1;
-              0 < l;
-              u = l, l = d.indexOf("/", u) + 1
-            )
-              c.FS_createPath(d.substring(0, u), d.substring(u, l - 1), !0, !0);
-            c.FS_createDataFile(d, null, e.subarray(a, a + s), !0, !0, !0);
-          }
-          c.removeRunDependency("dataUrl");
-        });
-    });
-  }
-  return (
-    (c.SystemInfo = (function () {
-      var e,
-        t,
-        r,
-        n,
-        o = navigator.userAgent + " ",
-        a = [
-          ["Firefox", "Firefox"],
-          ["OPR", "Opera"],
-          ["Edg", "Edge"],
-          ["SamsungBrowser", "Samsung Browser"],
-          ["Trident", "Internet Explorer"],
-          ["MSIE", "Internet Explorer"],
-          ["Chrome", "Chrome"],
-          ["CriOS", "Chrome on iOS Safari"],
-          ["FxiOS", "Firefox on iOS Safari"],
-          ["Safari", "Safari"],
-        ];
-      function s(e, t, r) {
-        return (e = RegExp(e, "i").exec(t)) && e[r];
+      o = navigator.userAgent + " ",
+      a = [
+        ["Firefox", "Firefox"],
+        ["OPR", "Opera"],
+        ["Edg", "Edge"],
+        ["SamsungBrowser", "Samsung Browser"],
+        ["Trident", "Internet Explorer"],
+        ["MSIE", "Internet Explorer"],
+        ["Chrome", "Chrome"],
+        ["CriOS", "Chrome on iOS Safari"],
+        ["FxiOS", "Firefox on iOS Safari"],
+        ["Safari", "Safari"],
+      ];
+    function s(e, t, r) {
+      return (e = RegExp(e, "i").exec(t)) && e[r];
+    }
+    for (var i = 0; i < a.length; ++i)
+      if ((t = s(a[i][0] + "[/ ](.*?)[ \\)]", o, 1))) {
+        e = a[i][1];
+        break;
       }
-      for (var i = 0; i < a.length; ++i)
-        if ((t = s(a[i][0] + "[/ ](.*?)[ \\)]", o, 1))) {
-          e = a[i][1];
-          break;
-        }
-      "Safari" == e && (t = s("Version/(.*?) ", o, 1)),
-        "Internet Explorer" == e && (t = s("rv:(.*?)\\)? ", o, 1) || t);
-      for (
-        var d = [
-            ["Windows (.*?)[;)]", "Windows"],
-            ["Android ([0-9_.]+)", "Android"],
-            ["iPhone OS ([0-9_.]+)", "iPhoneOS"],
-            ["iPad.*? OS ([0-9_.]+)", "iPadOS"],
-            ["FreeBSD( )", "FreeBSD"],
-            ["OpenBSD( )", "OpenBSD"],
-            ["Linux|X11()", "Linux"],
-            ["Mac OS X ([0-9_\\.]+)", "MacOS"],
-            ["bot|google|baidu|bing|msn|teoma|slurp|yandex", "Search Bot"],
-          ],
-          u = 0;
-        u < d.length;
-        ++u
-      )
-        if ((c = s(d[u][0], o, 1))) {
-          (r = d[u][1]), (c = c.replace(/_/g, "."));
-          break;
-        }
-      var l,
-        c =
-          {
-            "NT 5.0": "2000",
-            "NT 5.1": "XP",
-            "NT 5.2": "Server 2003",
-            "NT 6.0": "Vista",
-            "NT 6.1": "7",
-            "NT 6.2": "8",
-            "NT 6.3": "8.1",
-            "NT 10.0": "10",
-          }[c] || c,
-        h =
-          ((h = document.createElement("canvas")) &&
-            ((l = (f = h.getContext("webgl2")) ? 2 : 0),
-            f || ((f = h && h.getContext("webgl")) && (l = 1)),
-            f &&
-              (n =
-                (f.getExtension("WEBGL_debug_renderer_info") &&
-                  f.getParameter(37446)) ||
-                f.getParameter(7937))),
-          "undefined" != typeof SharedArrayBuffer),
-        f =
-          "object" == typeof WebAssembly &&
-          "function" == typeof WebAssembly.compile;
-      return {
-        width: screen.width,
-        height: screen.height,
-        userAgent: o.trim(),
-        browser: e || "Unknown browser",
-        browserVersion: t || "Unknown version",
-        mobile: /Mobile|Android|iP(ad|hone)/.test(navigator.appVersion),
-        os: r || "Unknown OS",
-        osVersion: c || "Unknown OS Version",
-        gpu: n || "Unknown GPU",
-        language: navigator.userLanguage || navigator.language,
-        hasWebGL: l,
-        hasCursorLock: !!document.body.requestPointerLock,
-        hasFullscreen:
-          !!document.body.requestFullscreen ||
-          !!document.body.webkitRequestFullscreen,
-        hasThreads: h,
-        hasWasm: f,
-        hasWasmThreads: !1,
-      };
-    })()),
+    "Safari" == e && (t = s("Version/(.*?) ", o, 1)),
+      "Internet Explorer" == e && (t = s("rv:(.*?)\\)? ", o, 1) || t);
+    for (
+      var d = [
+          ["Windows (.*?)[;)]", "Windows"],
+          ["Android ([0-9_.]+)", "Android"],
+          ["iPhone OS ([0-9_.]+)", "iPhoneOS"],
+          ["iPad.*? OS ([0-9_.]+)", "iPadOS"],
+          ["FreeBSD( )", "FreeBSD"],
+          ["OpenBSD( )", "OpenBSD"],
+          ["Linux|X11()", "Linux"],
+          ["Mac OS X ([0-9_\\.]+)", "MacOS"],
+          ["bot|google|baidu|bing|msn|teoma|slurp|yandex", "Search Bot"],
+        ],
+        l = 0;
+      l < d.length;
+      ++l
+    )
+      if ((c = s(d[l][0], o, 1))) {
+        (r = d[l][1]), (c = c.replace(/_/g, "."));
+        break;
+      }
+    var u,
+      c =
+        {
+          "NT 5.0": "2000",
+          "NT 5.1": "XP",
+          "NT 5.2": "Server 2003",
+          "NT 6.0": "Vista",
+          "NT 6.1": "7",
+          "NT 6.2": "8",
+          "NT 6.3": "8.1",
+          "NT 10.0": "10",
+        }[c] || c,
+      h =
+        ((h = document.createElement("canvas")) &&
+          ((u = (f = h.getContext("webgl2")) ? 2 : 0),
+          f || ((f = h && h.getContext("webgl")) && (u = 1)),
+          f &&
+            (n =
+              (f.getExtension("WEBGL_debug_renderer_info") &&
+                f.getParameter(37446)) ||
+              f.getParameter(7937))),
+        "undefined" != typeof SharedArrayBuffer),
+      f =
+        "object" == typeof WebAssembly &&
+        "function" == typeof WebAssembly.compile;
+    return {
+      width: screen.width,
+      height: screen.height,
+      userAgent: o.trim(),
+      browser: e || "Unknown browser",
+      browserVersion: t || "Unknown version",
+      mobile: /Mobile|Android|iP(ad|hone)/.test(navigator.appVersion),
+      os: r || "Unknown OS",
+      osVersion: c || "Unknown OS Version",
+      gpu: n || "Unknown GPU",
+      language: navigator.userLanguage || navigator.language,
+      hasWebGL: u,
+      hasCursorLock: !!document.body.requestPointerLock,
+      hasFullscreen:
+        !!document.body.requestFullscreen ||
+        !!document.body.webkitRequestFullscreen,
+      hasThreads: h,
+      hasWasm: f,
+      hasWasmThreads: !1,
+    };
+  })()),
     (c.abortHandler = function (e) {
-      return C(e, "", 0), !0;
+      return k(e, "", 0), !0;
     }),
     (Error.stackTraceLimit = Math.max(Error.stackTraceLimit || 0, 50)),
     (c.readBodyWithProgress = function (a, s, i) {
       var e = a.body ? a.body.getReader() : void 0,
         d = void 0 !== a.headers.get("Content-Length"),
-        u = (function (e, t) {
+        l = (function (e, t) {
           if (!t) return 0;
           var t = e.headers.get("Content-Encoding"),
             r = parseInt(e.headers.get("Content-Length"));
@@ -563,7 +427,7 @@ function createUnityInstance(t, r, d) {
               return r;
           }
         })(a, d),
-        l = new Uint8Array(u),
+        u = new Uint8Array(l),
         c = [],
         h = 0,
         f = 0;
@@ -590,10 +454,10 @@ function createUnityInstance(t, r, d) {
               })
             : e.read().then(function (e) {
                 if (e.done) {
-                  if (h === u) return l;
-                  if (h < u) return l.slice(0, h);
+                  if (h === l) return u;
+                  if (h < l) return u.slice(0, h);
                   for (
-                    var t = new Uint8Array(h), r = (t.set(l, 0), f), n = 0;
+                    var t = new Uint8Array(h), r = (t.set(u, 0), f), n = 0;
                     n < c.length;
                     ++n
                   )
@@ -601,14 +465,14 @@ function createUnityInstance(t, r, d) {
                   return t;
                 }
                 return (
-                  h + e.value.length <= l.length
-                    ? (l.set(e.value, h), (f = h + e.value.length))
+                  h + e.value.length <= u.length
+                    ? (u.set(e.value, h), (f = h + e.value.length))
                     : c.push(e.value),
                   (h += e.value.length),
                   s({
                     type: "progress",
                     response: a,
-                    total: Math.max(u, h),
+                    total: Math.max(l, h),
                     loaded: h,
                     lengthComputable: d,
                     chunk: i ? e.value : null,
@@ -642,32 +506,32 @@ function createUnityInstance(t, r, d) {
       );
     }),
     (c.UnityCache =
-      ((u = { name: "UnityCache", version: 3 }),
-      (l = { name: "RequestStore", version: 1 }),
+      ((i = { name: "UnityCache", version: 3 }),
+      (u = { name: "RequestStore", version: 1 }),
       (h = { name: "WebAssembly", version: 1 }),
       (f =
         window.indexedDB ||
         window.mozIndexedDB ||
         window.webkitIndexedDB ||
         window.msIndexedDB),
-      (S.UnityCacheDatabase = u),
-      (S.RequestStore = l),
-      (S.WebAssemblyStore = h),
+      (x.UnityCacheDatabase = i),
+      (x.RequestStore = u),
+      (x.WebAssemblyStore = h),
       (p = null),
-      (S.getInstance = function () {
-        return (p = p || new S());
+      (x.getInstance = function () {
+        return (p = p || new x());
       }),
-      (S.destroyInstance = function () {
+      (x.destroyInstance = function () {
         return p
           ? p.close().then(function () {
               p = null;
             })
           : Promise.resolve();
       }),
-      (S.clearCache = function () {
-        return S.destroyInstance().then(function () {
+      (x.clearCache = function () {
+        return x.destroyInstance().then(function () {
           return new Promise(function (e, t) {
-            var r = f.deleteDatabase(u.name);
+            var r = f.deleteDatabase(i.name);
             (r.onsuccess = function () {
               e();
             }),
@@ -680,7 +544,7 @@ function createUnityInstance(t, r, d) {
           });
         });
       }),
-      (S.prototype.execute = function (a, s, i) {
+      (x.prototype.execute = function (a, s, i) {
         return this.isConnected.then(
           function () {
             return new Promise(
@@ -710,38 +574,38 @@ function createUnityInstance(t, r, d) {
           }.bind(this)
         );
       }),
-      (S.prototype.loadRequest = function (e) {
-        return this.execute(l.name, "get", [e]);
+      (x.prototype.loadRequest = function (e) {
+        return this.execute(u.name, "get", [e]);
       }),
-      (S.prototype.storeRequest = function (e) {
-        return this.execute(l.name, "put", [e]);
+      (x.prototype.storeRequest = function (e) {
+        return this.execute(u.name, "put", [e]);
       }),
-      (S.prototype.close = function () {
+      (x.prototype.close = function () {
         return this.isConnected.then(
           function () {
             this.database && (this.database.close(), (this.database = null));
           }.bind(this)
         );
       }),
-      S)),
+      x)),
     (c.cachedFetch =
       ((g = c.UnityCache),
       (m = g.RequestStore),
       (b = c.fetchWithProgress),
-      (k.prototype.arrayBuffer = function () {
+      (E.prototype.arrayBuffer = function () {
         return Promise.resolve(this.parsedBody.buffer);
       }),
-      (k.prototype.blob = function () {
+      (E.prototype.blob = function () {
         return this.arrayBuffer().then(function (e) {
           return new Blob([e]);
         });
       }),
-      (k.prototype.json = function () {
+      (E.prototype.json = function () {
         return this.text().then(function (e) {
           return JSON.parse(e);
         });
       }),
-      (k.prototype.text = function () {
+      (E.prototype.text = function () {
         var e = new TextDecoder();
         return Promise.resolve(e.decode(this.parsedBody));
       }),
@@ -749,7 +613,7 @@ function createUnityInstance(t, r, d) {
         var e,
           t,
           a = g.getInstance(),
-          r = E("string" == typeof n ? n : n.url),
+          r = U("string" == typeof n ? n : n.url),
           s = {
             enabled:
               ((e = r),
@@ -768,43 +632,43 @@ function createUnityInstance(t, r, d) {
                   a
                     .storeRequest(s.result)
                     .then(function () {
-                      T(
+                      S(
                         "'" +
                           s.result.url +
                           "' successfully revalidated and served from the indexedDB cache"
                       );
                     })
                     .catch(function (e) {
-                      T(
+                      S(
                         "'" +
                           s.result.url +
                           "' successfully revalidated but not stored in the indexedDB cache due to the error: " +
                           e
                       );
                     }),
-                  new k(s.result.response)
+                  new E(s.result.response)
                 );
               200 == e.status
-                ? ((s.result = P(e.url, s.company, s.product, s.accessed, e)),
+                ? ((s.result = T(e.url, s.company, s.product, s.accessed, e)),
                   (s.revalidated = !0),
                   a
                     .storeRequest(s.result)
                     .then(function () {
-                      T(
+                      S(
                         "'" +
                           s.result.url +
                           "' successfully downloaded and stored in the indexedDB cache"
                       );
                     })
                     .catch(function (e) {
-                      T(
+                      S(
                         "'" +
                           s.result.url +
                           "' successfully downloaded but not stored in the indexedDB cache due to the error: " +
                           e
                       );
                     }))
-                : T(
+                : S(
                     "'" +
                       s.result.url +
                       "' request failed with status: " +
@@ -837,7 +701,7 @@ function createUnityInstance(t, r, d) {
             ((s.control = o.control),
             (s.company = o.company),
             (s.product = o.product)),
-          (s.result = P(r, s.company, s.product, Date.now())),
+          (s.result = T(r, s.company, s.product, Date.now())),
           (s.revalidated = !1),
           s.enabled
             ? a
@@ -846,11 +710,11 @@ function createUnityInstance(t, r, d) {
                   if (!e || e.version !== m.version) return i(n, o);
                   (s.result = e), (s.result.accessed = Date.now());
                   var t,
-                    r = new k(s.result.response);
+                    r = new E(s.result.response);
                   return "immutable" == s.control
                     ? ((s.revalidated = !0),
                       a.storeRequest(s.result),
-                      T(
+                      S(
                         "'" +
                           s.result.url +
                           "' served from the indexedDB cache without revalidation"
@@ -887,7 +751,7 @@ function createUnityInstance(t, r, d) {
                                 s.revalidated
                                   ? ((s.result.revalidated = s.result.accessed),
                                     a.storeRequest(s.result),
-                                    T(
+                                    S(
                                       "'" +
                                         s.result.url +
                                         "' successfully revalidated and served from the indexedDB cache"
@@ -901,7 +765,7 @@ function createUnityInstance(t, r, d) {
                 })
                 .catch(function (e) {
                   return (
-                    T(
+                    S(
                       "Failed to load '" +
                         s.result.url +
                         "' from indexedDB cache due to the error: " +
@@ -912,22 +776,233 @@ function createUnityInstance(t, r, d) {
                 })
             : b(n, o)
         );
-      })),
-    new Promise(function (e, t) {
-      c.SystemInfo.hasWebGL
-        ? c.SystemInfo.hasWasm
-          ? (1 == c.SystemInfo.hasWebGL &&
-              c.print(
-                'Warning: Your browser does not support "WebGL 2" Graphics API, switching to "WebGL 1"'
-              ),
-            (c.startupErrorHandler = t),
-            d(0),
-            c.postRun.push(function () {
-              d(1), delete c.startupErrorHandler, e(w);
-            }),
-            U())
-          : t("Your browser does not support WebAssembly.")
-        : t("Your browser does not support WebGL.");
+      }));
+  var P = {};
+  function L(r) {
+    C(r);
+    var e = c.cacheControl(c[r]),
+      t = c.companyName && c.productName ? c.cachedFetch : c.fetchWithProgress,
+      n = c[r],
+      n = /file:\/\//.exec(n) ? "same-origin" : void 0;
+    return t(c[r], {
+      method: "GET",
+      companyName: c.companyName,
+      productName: c.productName,
+      control: e,
+      mode: n,
+      onProgress: function (e) {
+        C(r, e);
+      },
     })
-  );
+      .then(function (e) {
+        return (
+          (s = e.parsedBody),
+          (i = c[r]),
+          new Promise(function (e, t) {
+            try {
+              for (var r in P) {
+                var n, o, a;
+                if (P[r].hasUnityMarker(s))
+                  return (
+                    i &&
+                      console.log(
+                        'You can reduce startup time if you configure your web server to add "Content-Encoding: ' +
+                          r +
+                          '" response header when serving "' +
+                          i +
+                          '" file.'
+                      ),
+                    (n = P[r]).worker ||
+                      ((o = URL.createObjectURL(
+                        new Blob(
+                          [
+                            "this.require = ",
+                            n.require.toString(),
+                            "; this.decompress = ",
+                            n.decompress.toString(),
+                            "; this.onmessage = ",
+                            function (e) {
+                              e = {
+                                id: e.data.id,
+                                decompressed: this.decompress(
+                                  e.data.compressed
+                                ),
+                              };
+                              postMessage(
+                                e,
+                                e.decompressed ? [e.decompressed.buffer] : []
+                              );
+                            }.toString(),
+                            "; postMessage({ ready: true });",
+                          ],
+                          { type: "application/javascript" }
+                        )
+                      )),
+                      (n.worker = new Worker(o)),
+                      (n.worker.onmessage = function (e) {
+                        e.data.ready
+                          ? URL.revokeObjectURL(o)
+                          : (this.callbacks[e.data.id](e.data.decompressed),
+                            delete this.callbacks[e.data.id]);
+                      }),
+                      (n.worker.callbacks = {}),
+                      (n.worker.nextCallbackId = 0)),
+                    (a = n.worker.nextCallbackId++),
+                    (n.worker.callbacks[a] = e),
+                    void n.worker.postMessage({ id: a, compressed: s }, [
+                      s.buffer,
+                    ])
+                  );
+              }
+              e(s);
+            } catch (e) {
+              t(e);
+            }
+          })
+        );
+        var s, i;
+      })
+      .catch(function (e) {
+        var t = "Failed to download file " + c[r];
+        "file:" == location.protocol
+          ? l(
+              t +
+                ". Loading web pages via a file:// URL without a web server is not supported by this browser. Please use a local development web server to host Unity content, or use the Unity Build and Run option.",
+              "error"
+            )
+          : console.error(t);
+      });
+  }
+  function B() {
+    Promise.all([
+      L("frameworkUrl").then(function (e) {
+        var i = URL.createObjectURL(
+          new Blob([e], { type: "application/javascript" })
+        );
+        return new Promise(function (a, e) {
+          var s = document.createElement("script");
+          (s.src = i),
+            (s.onload = function () {
+              if ("undefined" == typeof unityFramework || !unityFramework) {
+                var e,
+                  t = [
+                    ["br", "br"],
+                    ["gz", "gzip"],
+                  ];
+                for (e in t) {
+                  var r,
+                    n = t[e];
+                  if (c.frameworkUrl.endsWith("." + n[0]))
+                    return (
+                      (r = "Unable to parse " + c.frameworkUrl + "!"),
+                      "file:" == location.protocol
+                        ? void l(
+                            r +
+                              " Loading pre-compressed (brotli or gzip) content via a file:// URL without a web server is not supported by this browser. Please use a local development web server to host compressed Unity content, or use the Unity Build and Run option.",
+                            "error"
+                          )
+                        : ((r +=
+                            ' This can happen if build compression was enabled but web server hosting the content was misconfigured to not serve the file with HTTP Response Header "Content-Encoding: ' +
+                            n[1] +
+                            '" present. Check browser Console and Devtools Network tab to debug.'),
+                          "br" == n[0] &&
+                            "http:" == location.protocol &&
+                            ((n =
+                              -1 !=
+                              ["localhost", "127.0.0.1"].indexOf(
+                                location.hostname
+                              )
+                                ? ""
+                                : "Migrate your server to use HTTPS."),
+                            (r = /Firefox/.test(navigator.userAgent)
+                              ? "Unable to parse " +
+                                c.frameworkUrl +
+                                '!<br>If using custom web server, verify that web server is sending .br files with HTTP Response Header "Content-Encoding: br". Brotli compression may not be supported in Firefox over HTTP connections. ' +
+                                n +
+                                ' See <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1670675">https://bugzilla.mozilla.org/show_bug.cgi?id=1670675</a> for more information.'
+                              : "Unable to parse " +
+                                c.frameworkUrl +
+                                '!<br>If using custom web server, verify that web server is sending .br files with HTTP Response Header "Content-Encoding: br". Brotli compression may not be supported over HTTP connections. Migrate your server to use HTTPS.')),
+                          void l(r, "error"))
+                    );
+                }
+                l(
+                  "Unable to parse " +
+                    c.frameworkUrl +
+                    "! The file is corrupt, or compression was misconfigured? (check Content-Encoding HTTP Response Header on web server)",
+                  "error"
+                );
+              }
+              var o = unityFramework;
+              (unityFramework = null),
+                (s.onload = null),
+                URL.revokeObjectURL(i),
+                a(o);
+            }),
+            (s.onerror = function (e) {
+              l(
+                "Unable to load file " +
+                  c.frameworkUrl +
+                  "! Check that the file exists on the remote server. (also check browser Console and Devtools Network tab to debug)",
+                "error"
+              );
+            }),
+            document.body.appendChild(s),
+            c.deinitializers.push(function () {
+              document.body.removeChild(s);
+            });
+        });
+      }),
+      L("codeUrl"),
+    ]).then(function (e) {
+      (c.wasmBinary = e[1]), e[0](c);
+    });
+    var e = L("dataUrl");
+    c.preRun.push(function () {
+      c.addRunDependency("dataUrl"),
+        e.then(function (e) {
+          var t = new DataView(e.buffer, e.byteOffset, e.byteLength),
+            r = 0,
+            n = "UnityWebData1.0\0";
+          if (
+            !String.fromCharCode.apply(null, e.subarray(r, r + n.length)) == n
+          )
+            throw "unknown data format";
+          var o = t.getUint32((r += n.length), !0);
+          for (r += 4; r < o; ) {
+            var a = t.getUint32(r, !0),
+              s = ((r += 4), t.getUint32(r, !0)),
+              i = ((r += 4), t.getUint32(r, !0)),
+              d =
+                ((r += 4),
+                String.fromCharCode.apply(null, e.subarray(r, r + i)));
+            r += i;
+            for (
+              var l = 0, u = d.indexOf("/", l) + 1;
+              0 < u;
+              l = u, u = d.indexOf("/", l) + 1
+            )
+              c.FS_createPath(d.substring(0, l), d.substring(l, u - 1), !0, !0);
+            c.FS_createDataFile(d, null, e.subarray(a, a + s), !0, !0, !0);
+          }
+          c.removeRunDependency("dataUrl");
+        });
+    });
+  }
+  return new Promise(function (e, t) {
+    c.SystemInfo.hasWebGL
+      ? c.SystemInfo.hasWasm
+        ? (1 == c.SystemInfo.hasWebGL &&
+            c.print(
+              'Warning: Your browser does not support "WebGL 2" Graphics API, switching to "WebGL 1"'
+            ),
+          (c.startupErrorHandler = t),
+          d(0),
+          c.postRun.push(function () {
+            d(1), delete c.startupErrorHandler, e(w);
+          }),
+          B())
+        : t("Your browser does not support WebAssembly.")
+      : t("Your browser does not support WebGL.");
+  });
 }
